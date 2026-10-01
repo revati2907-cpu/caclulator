@@ -1,21 +1,16 @@
 // ==========================================
-// CREDITCALC - SUPABASE AUTH + SGPA
+// CREDITCALC - SUPABASE AUTH + ADMIN + SGPA
 // ==========================================
-
-function showMessage(message, isError = false) {
-    const el = document.getElementById("authMessage");
-    if (!el) return;
-    el.textContent = message;
-    el.className = "auth-message " + (isError ? "error" : "success");
-}
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "admin123";
 
 // ---------- STORAGE ----------
 function getUsers() {
-    return JSON.parse(localStorage.getItem("creditcalc_users") || "[]");
+    return [];
 }
 
 function saveUsers(users) {
-    localStorage.setItem("creditcalc_users", JSON.stringify(users));
+    // Student accounts are stored in Supabase Authentication.
 }
 
 function getResults() {
@@ -26,121 +21,61 @@ function saveResults(results) {
     localStorage.setItem("creditcalc_results", JSON.stringify(results));
 }
 
-
-// ---------- SUPABASE AUTH ----------
-async function handleSignup(event) {
-    event.preventDefault();
-
-    const name = document.getElementById("signupName").value.trim();
-    const email = document.getElementById("signupEmail").value.trim();
-    const password = document.getElementById("signupPassword").value;
-    const confirmPassword = document.getElementById("signupConfirmPassword").value;
-
-    if (password !== confirmPassword) {
-        showMessage("Passwords do not match.", true);
-        return;
-    }
-
-    try {
-        const { data, error } = await supabaseClient.auth.signUp({
-            email,
-            password,
-            options: {
-                data: { full_name: name }
-            }
-        });
-
-        if (error) throw error;
-
-        if (data.session) {
-            showMessage("Account created successfully. Redirecting to login...");
-        } else {
-            showMessage("Account created. Check your email if confirmation is enabled, then login.");
-        }
-
-        setTimeout(() => {
-            window.location.href = "login.html";
-        }, 1800);
-    } catch (error) {
-        showMessage(error.message || "Sign up failed.", true);
-    }
+// ---------- SUPABASE STUDENT AUTH ----------
+function showMessage(message, isError = false) {
+    const el = document.getElementById("authMessage");
+    if (!el) return;
+    el.textContent = message;
+    el.className = "auth-message " + (isError ? "error" : "success");
 }
 
-async function handleLogin(event) {
-    event.preventDefault();
+function authClient() {
+    try { return window.getSupabaseClient(); }
+    catch (error) { showMessage(error.message, true); throw error; }
+}
 
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value;
+async function login() {
+    const email = document.getElementById("loginEmail")?.value.trim();
+    const password = document.getElementById("loginPassword")?.value || "";
+    if (!email || !password) return;
+    const { error } = await authClient().auth.signInWithPassword({ email, password });
+    if (error) { showMessage(error.message, true); return; }
+    window.location.href = "calculator.html";
+}
 
-    try {
-        const { error } = await supabaseClient.auth.signInWithPassword({
-            email,
-            password
-        });
-
-        if (error) throw error;
-
-        sessionStorage.setItem("creditcalc_login", "yes");
-        sessionStorage.setItem("creditcalc_name", email);
-        window.location.href = "calculator.html";
-    } catch (error) {
-        showMessage(error.message || "Login failed.", true);
+async function signup() {
+    const name = document.getElementById("signupName")?.value.trim();
+    const email = document.getElementById("signupEmail")?.value.trim();
+    const password = document.getElementById("signupPassword")?.value || "";
+    const confirm = document.getElementById("signupConfirmPassword")?.value || "";
+    if (password !== confirm) { showMessage("Passwords do not match.", true); return; }
+    const { data, error } = await authClient().auth.signUp({
+        email, password, options: { data: { full_name: name } }
+    });
+    if (error) { showMessage(error.message, true); return; }
+    if (data.session) {
+        await authClient().auth.signOut();
     }
+    showMessage("Account created successfully. Please login.");
+    setTimeout(() => { window.location.href = "login.html"; }, 900);
 }
 
 async function logout() {
-    try {
-        await supabaseClient.auth.signOut();
-    } finally {
-        sessionStorage.clear();
-        window.location.href = "index.html";
-    }
+    await authClient().auth.signOut();
+    window.location.href = "index.html";
 }
 
-async function requireSupabaseLogin() {
-    const { data, error } = await supabaseClient.auth.getSession();
-
-    if (error || !data.session) {
-        window.location.href = "login.html";
-        return false;
-    }
-
-    const user = data.session.user;
-    const welcome = document.getElementById("welcome");
-    if (welcome) {
-        welcome.textContent = "Welcome, " +
-            (user.user_metadata?.full_name || user.email || "Student");
-    }
-
-    sessionStorage.setItem("creditcalc_login", "yes");
-    sessionStorage.setItem("creditcalc_name", user.email || "Student");
-    sessionStorage.setItem("creditcalc_role", "student");
-    return true;
+// ---------- ADMIN LOGIN (kept separate from student Supabase auth) ----------
+function showAdminLogin() { const box = document.getElementById("adminLoginBox"); if (box) box.style.display = "flex"; }
+function closeAdminLogin() { const box = document.getElementById("adminLoginBox"); if (box) box.style.display = "none"; }
+function adminLogin() {
+    const username = document.getElementById("adminUsername")?.value.trim();
+    const password = document.getElementById("adminPassword")?.value || "";
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        sessionStorage.setItem("creditcalc_login", "yes"); sessionStorage.setItem("creditcalc_role", "admin"); window.location.href = "admin.html";
+    } else alert("Invalid admin username or password.");
 }
-
-// ---------- PAGE LOAD ----------
-document.addEventListener("DOMContentLoaded", async function () {
-    const signupForm = document.getElementById("signupForm");
-    const loginForm = document.getElementById("loginForm");
-    const calculator = document.getElementById("calculator");
-
-    if (signupForm) signupForm.addEventListener("submit", handleSignup);
-    if (loginForm) loginForm.addEventListener("submit", handleLogin);
-
-    if (calculator) {
-        const allowed = await requireSupabaseLogin();
-        if (!allowed) return;
-        showCalculator();
-    }
-
-    // If already logged in, keep the user out of the login page.
-    if (loginForm) {
-        const { data } = await supabaseClient.auth.getSession();
-        if (data.session) {
-            window.location.href = "calculator.html";
-        }
-    }
-});
+function adminLogout() { sessionStorage.clear(); window.location.href = "index.html"; }
 
 // ---------- CALCULATOR ----------
 function getGrade(marks) {
@@ -153,15 +88,15 @@ function getGrade(marks) {
     return ["F", 0];
 }
 
-function showCalculator() {
+async function showCalculator() {
     const welcome = document.getElementById("welcome");
-    if (welcome) {
-        const name = sessionStorage.getItem("creditcalc_name") || "Student";
-        welcome.textContent = "Welcome, " + name;
-    }
+    if (!welcome) return;
+    const { data } = await authClient().auth.getUser();
+    const email = data.user?.email || "Student";
+    welcome.textContent = "Welcome, " + email;
 }
 
-function calculate() {
+async function calculate() {
     const rows = document.querySelectorAll("#subjectRows tr");
     let totalCredits = 0;
     let totalPoints = 0;
@@ -233,7 +168,7 @@ function calculate() {
 
     const results = getResults();
     results.push({
-        username: sessionStorage.getItem("creditcalc_name") || "Unknown",
+        username: (await authClient().auth.getUser()).data.user?.email || "Unknown",
         studentName,
         rollNo,
         semester,
@@ -314,70 +249,36 @@ function clearAllData() {
     alert("All student data deleted.");
 }
 
+// ---------- PAGE LOAD ----------
+document.addEventListener("DOMContentLoaded", async function () {
+    const calculator = document.getElementById("calculator");
+    const adminDashboard = document.getElementById("adminDashboard");
 
-// ---------- ADMIN DASHBOARD ----------
-function loadAdminDashboard() {
-    const users = getUsers();
-    const results = getResults();
+    const loginForm = document.getElementById("loginForm");
+    if (loginForm) loginForm.addEventListener("submit", function (e) { e.preventDefault(); login(); });
+    const signupForm = document.getElementById("signupForm");
+    if (signupForm) signupForm.addEventListener("submit", function (e) { e.preventDefault(); signup(); });
 
-    const userCount = document.getElementById("userCount");
-    const resultCount = document.getElementById("resultCount");
-    const passCount = document.getElementById("passCount");
-    const failCount = document.getElementById("failCount");
-    const usersTable = document.getElementById("usersTable");
-    const resultsTable = document.getElementById("resultsTable");
+    if (calculator) {
+        try {
+            const { data } = await authClient().auth.getUser();
+            if (!data.user) {
+                window.location.replace("login.html");
+                return;
+            }
+            await showCalculator();
+        } catch (error) {
+            // Keep the calculator protected when Supabase is unavailable/configuration is missing.
+            window.location.replace("login.html");
+            return;
+        }
+    }
 
-    if (!userCount || !resultCount || !passCount || !failCount || !usersTable || !resultsTable) return;
-
-    userCount.textContent = users.length;
-    resultCount.textContent = results.length;
-    passCount.textContent = results.filter(r => r.status === "PASS").length;
-    failCount.textContent = results.filter(r => r.status === "FAIL").length;
-
-    usersTable.innerHTML = "";
-    users.forEach((user, index) => {
-        const userResults = results.filter(r => r.username === user.username);
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${escapeHtml(user.username)}</td>
-            <td>${user.createdAt ? new Date(user.createdAt).toLocaleString() : "-"}</td>
-            <td>${userResults.length}</td>
-        `;
-        usersTable.appendChild(row);
-    });
-
-    resultsTable.innerHTML = "";
-    results.forEach(result => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${escapeHtml(result.date || "-")}</td>
-            <td>${escapeHtml(result.username || "-")}</td>
-            <td>${escapeHtml(result.studentName || "-")}</td>
-            <td>${escapeHtml(result.rollNo || "-")}</td>
-            <td>${escapeHtml(result.semester || "-")}</td>
-            <td>${escapeHtml(String(result.totalCredits ?? "-"))}</td>
-            <td><strong>${escapeHtml(String(result.sgpa ?? "-"))}</strong></td>
-            <td>${escapeHtml(result.status || "-")}</td>
-        `;
-        resultsTable.appendChild(row);
-    });
-}
-
-function escapeHtml(value) {
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
-
-function clearAllData() {
-    if (!confirm("Delete ALL students and results?")) return;
-    localStorage.removeItem("creditcalc_users");
-    localStorage.removeItem("creditcalc_results");
-    loadAdminDashboard();
-    alert("All student data deleted.");
-}
-
+    if (adminDashboard) {
+        if (sessionStorage.getItem("creditcalc_role") !== "admin") {
+            window.location.href = "index.html";
+            return;
+        }
+        loadAdminDashboard();
+    }
+});

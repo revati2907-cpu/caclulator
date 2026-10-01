@@ -1,32 +1,17 @@
-# CreditCalc - College Mini Project
+# CreditCalc - Supabase Login
 
-## Files
-- `index.html` - Home page with Login and Sign Up links
-- `login.html` - Supabase student login
-- `signup.html` - Supabase student registration
-- `calculator.html` - SGPA calculator protected by Supabase login
-- `admin.html` - Existing local admin dashboard
-- `about.html` - Existing project page
-- `style.css` - Styling
-- `script.js` - Supabase authentication and calculator logic
-- `supabase-config.js` - Supabase project URL and anon/public key
+The calculator interface and calculation features are kept the same as the original CreditCalc project. The old student login/signup popups were removed.
 
 ## Supabase setup
-1. Open your Supabase project.
-2. Go to **Project Settings -> API**.
-3. Copy the **Project URL** and **anon/public key**.
-4. Open `supabase-config.js`.
-5. Replace:
-   - `YOUR_SUPABASE_PROJECT_URL`
-   - `YOUR_SUPABASE_ANON_PUBLIC_KEY`
-6. In Supabase Authentication -> Providers, keep **Email** enabled.
-7. If you want users to verify email, keep email confirmation enabled. If you want immediate login after signup, disable email confirmation.
-8. Add your GitHub Pages URL under **Authentication -> URL Configuration -> Site URL / Redirect URLs** when using email confirmation.
+1. Open `supabase-config.js`.
+2. Replace `YOUR_SUPABASE_PROJECT_URL` with your Supabase Project URL.
+3. Replace `YOUR_SUPABASE_ANON_PUBLIC_KEY` with your Supabase anon/public key.
+4. In Supabase Authentication, enable Email provider.
+5. Add your GitHub Pages URL under Authentication > URL Configuration > Site URL / Redirect URLs if email confirmation is enabled.
 
-## GitHub Pages
-Upload all files to the same GitHub Pages repository/folder. Start from `index.html`.
+## Student flow
+Home -> Sign Up -> Login -> Calculator.
+The calculator page checks the Supabase session. Without a logged-in user it redirects to `login.html`.
 
-## Authentication flow
-Home -> Sign Up -> Supabase account -> Login -> Calculator.
-
-The old student login/signup popups and browser `localStorage` student authentication have been removed.
+## Important
+The calculator HTML/layout/calculation interface is retained from the original project. Supabase is used only for student authentication.
