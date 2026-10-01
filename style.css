@@ -1,0 +1,391 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #222;
+}
+
+/* HEADER */
+
+header {
+    height: 70px;
+    background: #0d47a1;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 50px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #90caf9;
+}
+
+
+/* HERO */
+
+.hero {
+    min-height: 500px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    background: linear-gradient(
+        135deg,
+        #0d47a1,
+        #1976d2
+    );
+
+    color: white;
+}
+
+.hero-content {
+    max-width: 750px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 19px;
+    line-height: 1.7;
+    margin-bottom: 35px;
+}
+
+.calculator-btn {
+    border: none;
+    background: white;
+    color: #0d47a1;
+
+    padding: 15px 35px;
+
+    border-radius: 8px;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.calculator-btn:hover {
+    background: #e3f2fd;
+}
+
+
+/* ABOUT */
+
+.about {
+    padding: 60px 10%;
+    text-align: center;
+}
+
+.about h2 {
+    color: #0d47a1;
+    margin-bottom: 20px;
+}
+
+.about p {
+    max-width: 800px;
+    margin: auto;
+    line-height: 1.8;
+}
+
+
+/* POPUP OVERLAY */
+
+.popup-overlay {
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.65);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+
+/* POPUP */
+
+.popup-box {
+    position: relative;
+
+    width: 400px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+
+    animation: popupAnimation 0.25s ease;
+}
+
+@keyframes popupAnimation {
+
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
+
+/* CLOSE */
+
+.close-btn {
+    position: absolute;
+
+    right: 15px;
+    top: 10px;
+
+    border: none;
+    background: none;
+
+    font-size: 30px;
+
+    cursor: pointer;
+
+    color: #777;
+}
+
+.close-btn:hover {
+    color: red;
+}
+
+
+/* ICON */
+
+.popup-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.popup-box h2 {
+    color: #0d47a1;
+    margin-bottom: 15px;
+}
+
+.popup-box p {
+    color: #555;
+
+    line-height: 1.6;
+
+    margin-bottom: 25px;
+}
+
+
+/* BUTTONS */
+
+.popup-buttons {
+    display: flex;
+
+    gap: 15px;
+
+    justify-content: center;
+}
+
+.login-popup-btn,
+.signup-popup-btn {
+    text-decoration: none;
+
+    padding: 12px 30px;
+
+    border-radius: 7px;
+
+    font-weight: bold;
+}
+
+.login-popup-btn {
+    background: #0d47a1;
+    color: white;
+}
+
+.signup-popup-btn {
+    background: #1976d2;
+    color: white;
+}
+
+.login-popup-btn:hover,
+.signup-popup-btn:hover {
+    opacity: 0.85;
+}
+
+
+/* CANCEL */
+
+.cancel-btn {
+    margin-top: 20px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #777;
+
+    cursor: pointer;
+
+    font-size: 15px;
+}
+
+.cancel-btn:hover {
+    color: #000;
+}
+.login-container {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(
+        135deg,
+        #0d47a1,
+        #1976d2
+    );
+}
+
+.login-box {
+    width: 400px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.login-box h1 {
+    text-align: center;
+
+    color: #0d47a1;
+
+    margin-bottom: 10px;
+}
+
+.login-box > p {
+    text-align: center;
+
+    color: #666;
+
+    margin-bottom: 30px;
+}
+
+.login-box label {
+    display: block;
+
+    margin-top: 15px;
+    margin-bottom: 7px;
+
+    font-weight: bold;
+}
+
+.login-box input {
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 7px;
+
+    font-size: 15px;
+}
+
+.login-box input:focus {
+    outline: none;
+
+    border-color: #1976d2;
+}
+
+.login-box button {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #0d47a1;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background: #1976d2;
+}
+
+.signup-text {
+    margin-top: 20px;
+}
+
+.signup-text a {
+    color: #0d47a1;
+
+    font-weight: bold;
+
+    text-decoration: none;
+}
+/* AUTHENTICATION PAGES */
+.auth-page{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:25px;background:linear-gradient(135deg,#0d47a1,#1976d2)}
+.auth-card{width:min(430px,100%);background:#fff;padding:35px;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.auth-card h1{text-align:center;color:#0d47a1;margin-bottom:10px}.auth-card>p{text-align:center;line-height:1.6;margin:12px 0}
+.auth-card form{display:flex;flex-direction:column;gap:9px}.auth-card label{font-weight:bold;margin-top:8px}.auth-card input,.calc-card input{padding:13px;border:1px solid #ccd3dd;border-radius:7px;font-size:15px}.auth-card button,.calc-card button{border:0;border-radius:7px;padding:13px;background:#0d47a1;color:#fff;font-weight:bold;font-size:16px;cursor:pointer;margin-top:12px}.auth-card a{color:#0d47a1;font-weight:bold}.message{min-height:24px}.message.error{color:#c62828}.message.success{color:#2e7d32}.forgot{display:block;text-align:right;margin-top:14px}
+.calculator-page{background:#f4f7fb;min-height:100vh}.calculator-page header{height:70px;background:#0d47a1;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 50px}.calculator-page nav{display:flex;gap:20px;align-items:center}.calculator-page nav a{color:#fff;text-decoration:none;font-weight:bold}.nav-button{background:transparent;border:1px solid #fff;color:#fff;padding:8px 16px;border-radius:6px;cursor:pointer}.calc-card{max-width:650px;margin:50px auto;background:#fff;padding:35px;border-radius:15px;box-shadow:0 8px 25px rgba(0,0,0,.12)}.calc-card h1{color:#0d47a1;margin-bottom:10px}.calc-card label{display:block;font-weight:bold;margin-top:20px;margin-bottom:7px}.result{margin-top:25px;padding:20px;background:#e3f2fd;border-radius:10px;line-height:1.8}.result h2{color:#0d47a1}
+@media(max-width:600px){header,.calculator-page header{padding:0 18px}.logo{font-size:18px}.calc-card{margin:25px 15px;padding:25px}.auth-card{padding:25px}}
