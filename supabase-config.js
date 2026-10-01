@@ -4,7 +4,7 @@ window.CREDITCALC_SUPABASE_URL =
     "https://jcewglfpqybkjrppwbyj.supabase.co";
 
 window.CREDITCALC_SUPABASE_ANON_KEY =
-    "YOUR_ANON_KEY_HERE";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjZXdnbGZwcXlia2pycHB3YnlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MzM5NjQsImV4cCI6MjEwNjQwOTk2NH0.JGoui4yIjKSSR17l15I1LxHWHXoQ4GogpjBPgbbqZZ4";
 
 window.getSupabaseClient = function () {
 
