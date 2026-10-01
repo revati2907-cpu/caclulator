@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreditCalc - Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">CreditCalc</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="calculator.html">Calculator</a>
+        <a href="about.html">About</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+    </nav>
+</header>
+
+<main class="admin-page" id="adminDashboard">
+    <div class="admin-top">
+        <div>
+            <h2>Admin Dashboard</h2>
+            <p>View registered students and all calculation results.</p>
+        </div>
+        <button class="danger" onclick="clearAllData()">Delete All Data</button>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card"><span id="userCount">0</span><small>Students</small></div>
+        <div class="stat-card"><span id="resultCount">0</span><small>Results</small></div>
+        <div class="stat-card"><span id="passCount">0</span><small>Pass</small></div>
+        <div class="stat-card"><span id="failCount">0</span><small>Fail</small></div>
+    </div>
+
+    <section class="admin-card">
+        <h2>Registered Students</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Username</th><th>Created</th><th>Results</th></tr>
+                </thead>
+                <tbody id="usersTable"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="admin-card">
+        <h2>All Student Results</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th><th>Username</th><th>Student</th><th>Roll No.</th>
+                        <th>Semester</th><th>Credits</th><th>SGPA</th><th>Result</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTable"></tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

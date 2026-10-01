@@ -1,3 +1,245 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Credit Calculator</title><link rel="stylesheet" href="style.css"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="auth.js"></script></head>
-<body class="calculator-page"><header><div class="logo">College Credit Calculator</div><nav><a href="index.html">Home</a><button class="nav-button" onclick="logout()">Logout</button></nav></header><main class="calc-card"><h1>College Credit Calculator</h1><p id="welcome"></p><label>Total Required Credits</label><input id="required" type="number" min="0" value="160"><label>Credits Earned</label><input id="earned" type="number" min="0" value="0"><button onclick="calculate()">Calculate</button><div id="result" class="result"></div></main>
-<script>(async()=>{const u=await requireLogin();if(u)document.getElementById('welcome').textContent='Logged in as '+(u.email||'student');})();function calculate(){const r=Number(document.getElementById('required').value),e=Number(document.getElementById('earned').value),remaining=Math.max(r-e,0),p=r?Math.min(e/r*100,100):0;document.getElementById('result').innerHTML=`<h2>Result</h2><p>Required Credits: ${r}</p><p>Earned Credits: ${e}</p><p>Remaining Credits: ${remaining}</p><p>Progress: ${p.toFixed(2)}%</p>`;}</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreditCalc - Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">CreditCalc</div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="calculator.html">Calculator</a>
+        <a href="about.html">About</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+    </nav>
+</header>
+
+<div class="calculator-box" id="calculator">
+
+    <h1>SGPA Calculator</h1>
+
+    <div class="top">
+
+    <p id="welcome"></p>
+
+    <div>
+
+        <button
+            onclick="window.location.href='admin.html'"
+            id="adminButton"
+            style="display:none;"
+        >
+            Admin Panel
+        </button>
+
+        <button
+            class="logout"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</div>
+
+    <!-- Student Details -->
+
+    <div class="student-details">
+
+        <input
+            type="text"
+            id="studentName"
+            placeholder="Student Name"
+        >
+
+        <input
+            type="text"
+            id="rollNo"
+            placeholder="Roll Number"
+        >
+
+        <select id="semester">
+            <option value="">Select Semester</option>
+            <option>Semester 1</option>
+            <option>Semester 2</option>
+            <option>Semester 3</option>
+            <option>Semester 4</option>
+            <option>Semester 5</option>
+            <option>Semester 6</option>
+            <option>Semester 7</option>
+            <option>Semester 8</option>
+        </select>
+
+    </div>
+
+    <h2>Subject Details</h2>
+
+    <table>
+
+        <tbody id="subjectRows">
+        <tr>
+            <th>Subject</th>
+            <th>Credit</th>
+            <th>Marks</th>
+            <th>Grade</th>
+            <th>Grade Point</th>
+        </tr>
+
+        <tr>
+            <td>
+                <input class="subject" placeholder="Subject 1">
+            </td>
+
+            <td>
+                <input class="credit" type="number" value="4">
+            </td>
+
+            <td>
+                <input class="marks" type="number"
+                       placeholder="Marks">
+            </td>
+
+            <td class="grade">-</td>
+
+            <td class="point">-</td>
+        </tr>
+
+        <tr>
+            <td>
+                <input class="subject" placeholder="Subject 2">
+            </td>
+
+            <td>
+                <input class="credit" type="number" value="4">
+            </td>
+
+            <td>
+                <input class="marks" type="number"
+                       placeholder="Marks">
+            </td>
+
+            <td class="grade">-</td>
+
+            <td class="point">-</td>
+        </tr>
+
+        <tr>
+            <td>
+                <input class="subject" placeholder="Subject 3">
+            </td>
+
+            <td>
+                <input class="credit" type="number" value="3">
+            </td>
+
+            <td>
+                <input class="marks" type="number"
+                       placeholder="Marks">
+            </td>
+
+            <td class="grade">-</td>
+
+            <td class="point">-</td>
+        </tr>
+
+        <tr>
+            <td>
+                <input class="subject" placeholder="Subject 4">
+            </td>
+
+            <td>
+                <input class="credit" type="number" value="4">
+            </td>
+
+            <td>
+                <input class="marks" type="number"
+                       placeholder="Marks">
+            </td>
+
+            <td class="grade">-</td>
+
+            <td class="point">-</td>
+        </tr>
+
+        <tr>
+            <td>
+                <input class="subject" placeholder="Subject 5">
+            </td>
+
+            <td>
+                <input class="credit" type="number" value="3">
+            </td>
+
+            <td>
+                <input class="marks" type="number"
+                       placeholder="Marks">
+            </td>
+
+            <td class="grade">-</td>
+
+            <td class="point">-</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <button onclick="calculate()">Calculate SGPA</button>
+
+    <button class="print" onclick="window.print()">
+        Print Result
+    </button>
+
+    <!-- Result -->
+
+    <div class="result">
+
+        <h2>Result</h2>
+
+        <p>
+            Student Name:
+            <b id="resultName">-</b>
+        </p>
+
+        <p>
+            Roll Number:
+            <b id="resultRoll">-</b>
+        </p>
+
+        <p>
+            Semester:
+            <b id="resultSemester">-</b>
+        </p>
+
+        <p>
+            Total Credits:
+            <b id="totalCredits">0</b>
+        </p>
+
+        <p>
+            SGPA:
+            <b id="sgpa">0.00</b>
+        </p>
+
+        <p>
+            Result:
+            <b id="status">-</b>
+        </p>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

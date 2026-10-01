@@ -3,131 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Credit Calculator</title>
+    <title>CreditCalc - Home</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase-config.js"></script>
-    <script src="auth.js"></script>
 </head>
-
 <body>
 
 <header>
-    <div class="logo">College Credit Calculator</div>
-
+    <div class="logo">CreditCalc</div>
     <nav>
         <a href="index.html">Home</a>
-        <a href="index.html#about">About</a>
-
-        <!-- Calculator -->
-        <a href="#" onclick="openCalculator()">Calculator</a>
-
+        <a href="calculator.html">Calculator</a>
+        <a href="about.html">About</a>
         <a href="login.html">Login</a>
         <a href="signup.html">Sign Up</a>
     </nav>
 </header>
 
-<section class="hero">
-    <div class="hero-content">
-        <h1>College Credit Calculator</h1>
-
-        <p>
-            Calculate your semester credits, total earned credits,
-            remaining credits and academic progress easily.
-        </p>
-
-        <button class="calculator-btn" onclick="openCalculator()">
-            Open Credit Calculator
-        </button>
+<section class="home">
+    <div class="home-content">
+        <h1>Welcome to CreditCalc</h1>
+        <h2>Exam Credits Calculator</h2>
+        <p>Calculate your grades, credit points and SGPA quickly and easily.</p>
+        <a class="button-link" href="login.html">Student Login</a>
+        <a class="button-link secondary" href="signup.html">Create Account</a>
     </div>
 </section>
 
-<section id="about" class="about">
-    <h2>About the Calculator</h2>
+<footer>
+    <p>© 2026 CreditCalc | College Mini Project</p>
+</footer>
 
-    <p>
-        This website helps college students calculate their academic
-        credits semester by semester. Login is required to use the
-        calculator and save your academic information.
-    </p>
-</section>
-
-
-<script>
-async function openCalculator() {
-    const user = await getCurrentUser();
-    window.location.href = user ? 'calculator.html' : 'login.html';
-}
-
-(async function () {
-    const user = await requireLogin();
-    if (user) {
-        const loginLink = document.querySelector('nav a[href="login.html"]');
-        const signupLink = document.querySelector('nav a[href="signup.html"]');
-        if (loginLink) loginLink.textContent = 'Account';
-        if (signupLink) signupLink.textContent = 'Logout';
-        if (signupLink) {
-            signupLink.href = '#';
-            signupLink.onclick = async function(e) { e.preventDefault(); await logout(); };
-        }
-    }
-})();
-</script>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Student Login</title>
-
-    <link rel="stylesheet" href="css/style.css">
-</head>
-
-<body>
-
-<div class="login-container">
-
-    <div class="login-box">
-
-        <h1>Student Login</h1>
-
-        <p>Login to access the Credit Calculator</p>
-
-        <form action="php/login.php" method="POST">
-
-            <label>Username</label>
-
-            <input
-                type="text"
-                name="username"
-                placeholder="Enter username"
-                required
-            >
-
-            <label>Password</label>
-
-            <input
-                type="password"
-                name="password"
-                placeholder="Enter password"
-                required
-            >
-
-            <button type="submit">
-                Login
-            </button>
-
-        </form>
-
-        <p class="signup-text">
-            Don't have an account?
-            <a href="signup.html">Create Account</a>
-        </p>
-
-    </div>
-
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
