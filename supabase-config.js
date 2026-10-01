@@ -1,27 +1,37 @@
 // CreditCalc - Supabase configuration
-// 1. Open Supabase Dashboard -> Project Settings -> API
-// 2. Replace the two values below with your Project URL and anon/public key.
-// 3. Keep this file loaded AFTER the Supabase CDN script.
 
-window.CREDITCALC_SUPABASE_URL = "https://jcewglfpqybkjrppwbyj.supabase.co";
-window.CREDITCALC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjZXdnbGZwcXlia2pycHB3YnlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MzM5NjQsImV4cCI6MjEwNjQwOTk2NH0.JGoui4yIjKSSR17l15I1LxHWHXoQ4GogpjBPgbbqZZ4";
+window.CREDITCALC_SUPABASE_URL =
+    "https://jcewglfpqybkjrppwbyj.supabase.co";
+
+window.CREDITCALC_SUPABASE_ANON_KEY =
+    "YOUR_ANON_KEY_HERE";
 
 window.getSupabaseClient = function () {
+
     if (window.__creditCalcSupabaseClient) {
         return window.__creditCalcSupabaseClient;
     }
 
-    if (!window.supabase || typeof window.supabase.createClient !== "function") {
-        throw new Error("Supabase library could not be loaded. Check your internet connection.");
+    if (
+        !window.supabase ||
+        typeof window.supabase.createClient !== "function"
+    ) {
+        throw new Error(
+            "Supabase library could not be loaded."
+        );
     }
 
-    const url = window.https://jcewglfpqybkjrppwbyj.supabase.co;
-    const key = window.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjZXdnbGZwcXlia2pycHB3YnlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MzM5NjQsImV4cCI6MjEwNjQwOTk2NH0.JGoui4yIjKSSR17l15I1LxHWHXoQ4GogpjBPgbbqZZ4;
+    const url = window.CREDITCALC_SUPABASE_URL;
+    const key = window.CREDITCALC_SUPABASE_ANON_KEY;
 
-    if (!url || url === "https://jcewglfpqybkjrppwbyj.supabase.co" || !key || key === "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjZXdnbGZwcXlia2pycHB3YnlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MzM5NjQsImV4cCI6MjEwNjQwOTk2NH0.JGoui4yIjKSSR17l15I1LxHWHXoQ4GogpjBPgbbqZZ4") {
-        throw new Error("Supabase is not configured. Add your Supabase Project URL and anon/public key in supabase-config.js.");
+    if (!url || !key) {
+        throw new Error(
+            "Supabase is not configured."
+        );
     }
 
-    window.__creditCalcSupabaseClient = window.supabase.createClient(url, key);
+    window.__creditCalcSupabaseClient =
+        window.supabase.createClient(url, key);
+
     return window.__creditCalcSupabaseClient;
 };
