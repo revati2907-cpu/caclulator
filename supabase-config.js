@@ -3,8 +3,8 @@
 // 2. Replace the two values below with your Project URL and anon/public key.
 // 3. Keep this file loaded AFTER the Supabase CDN script.
 
-window.CREDITCALC_SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
-window.CREDITCALC_SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_PUBLIC_KEY";
+window.CREDITCALC_SUPABASE_URL = "https://jcewglfpqybkjrppwbyj.supabase.co";
+window.CREDITCALC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjZXdnbGZwcXlia2pycHB3YnlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MzM5NjQsImV4cCI6MjEwNjQwOTk2NH0.JGoui4yIjKSSR17l15I1LxHWHXoQ4GogpjBPgbbqZZ4";
 
 window.getSupabaseClient = function () {
     if (window.__creditCalcSupabaseClient) {
