@@ -15,10 +15,10 @@ window.getSupabaseClient = function () {
         throw new Error("Supabase library could not be loaded. Check your internet connection.");
     }
 
-    const url = window.CREDITCALC_SUPABASE_URL;
-    const key = window.CREDITCALC_SUPABASE_ANON_KEY;
+    const url = window.https://jcewglfpqybkjrppwbyj.supabase.co;
+    const key = window.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjZXdnbGZwcXlia2pycHB3YnlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MzM5NjQsImV4cCI6MjEwNjQwOTk2NH0.JGoui4yIjKSSR17l15I1LxHWHXoQ4GogpjBPgbbqZZ4;
 
-    if (!url || url === "YOUR_SUPABASE_PROJECT_URL" || !key || key === "YOUR_SUPABASE_ANON_PUBLIC_KEY") {
+    if (!url || url === "https://jcewglfpqybkjrppwbyj.supabase.co" || !key || key === "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjZXdnbGZwcXlia2pycHB3YnlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MzM5NjQsImV4cCI6MjEwNjQwOTk2NH0.JGoui4yIjKSSR17l15I1LxHWHXoQ4GogpjBPgbbqZZ4") {
         throw new Error("Supabase is not configured. Add your Supabase Project URL and anon/public key in supabase-config.js.");
     }
 
